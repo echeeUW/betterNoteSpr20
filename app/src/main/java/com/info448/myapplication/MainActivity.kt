@@ -1,7 +1,9 @@
 package com.info448.myapplication
 
+import android.content.ContentResolver
 import android.content.Context
 import android.media.MediaPlayer
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -16,6 +18,8 @@ class MainActivity : AppCompatActivity() {
 
     private val notesFileName = "my_awesome_notes3.txt"
     lateinit var adapter: NotesAdapter
+    private var isSongPlaying = false
+    private var mediaPlayer: MediaPlayer? = null
 
     companion object {
         private val TAG = "echee"
@@ -53,52 +57,6 @@ class MainActivity : AppCompatActivity() {
         // To put an image
 //        // val imageFilePath = file.absolutePath
 //        ivAlbumArt.setImageDrawable( Drawable.createFromPath(imageFilePath))
-    }
-
-    private var isSongPlaying = false
-    private var mediaPlayer: MediaPlayer? = null
-
-    private fun readMusic() {
-        if (!isSongPlaying) {
-            val luckySongFile = File(filesDir, "lucky.mp3")
-            val path = luckySongFile.absolutePath
-
-            if (mediaPlayer == null) {
-                mediaPlayer = MediaPlayer().apply {
-                    setDataSource(path)
-                    prepare()
-                    start()
-                }
-            } else {
-                mediaPlayer?.start()
-            }
-            isSongPlaying = true
-        } else {
-            mediaPlayer?.pause()
-            isSongPlaying = false
-        }
-    }
-    private fun readMusicFromAssets() {
-        if (!isSongPlaying) {
-            val luckySongFile = File(cacheDir, "lucky.mp3").also { cacheFile ->
-                cacheFile.outputStream().use { cache -> assets.open("lucky.mp3").use { it.copyTo(cache)} }
-            }
-            val path = luckySongFile.absolutePath
-
-            if (mediaPlayer == null) {
-                mediaPlayer = MediaPlayer().apply {
-                    setDataSource(path)
-                    prepare()
-                    start()
-                }
-            } else {
-                mediaPlayer?.start()
-            }
-            isSongPlaying = true
-        } else {
-            mediaPlayer?.pause()
-            isSongPlaying = false
-        }
     }
 
     private fun writeSomeFile() {
@@ -208,10 +166,103 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun readMusic() {
+        if (!isSongPlaying) {
+            val luckySongFile = File(filesDir, "lucky.mp3")
+            val path = luckySongFile.absolutePath
 
+            if (mediaPlayer == null) {
+                mediaPlayer = MediaPlayer().apply {
+                    setDataSource(path)
+                    prepare()
+                    start()
+                }
+            } else {
+                mediaPlayer?.start()
+            }
+            isSongPlaying = true
+        } else {
+            mediaPlayer?.pause()
+            isSongPlaying = false
+        }
+    }
+    private fun readMusicFromAssets() {
+        if (!isSongPlaying) {
+            val luckySongFile = File(cacheDir, "lucky.mp3").also { cacheFile ->
+                cacheFile.outputStream().use { cacheOutputStream ->
+                    assets.open("lucky.mp3").use {
+                        it.copyTo(cacheOutputStream)
+                    }
+                }
+            }
+            val path = luckySongFile.absolutePath
 
+            if (mediaPlayer == null) {
+                mediaPlayer = MediaPlayer().apply {
+                    setDataSource(path)
+                    prepare()
+                    start()
+                }
+            } else {
+                mediaPlayer?.start()
+            }
+            isSongPlaying = true
+        } else {
+            mediaPlayer?.pause()
+            isSongPlaying = false
+        }
+    }
 
+    private fun readMusicFromRaw() {
+        if (!isSongPlaying) {
 
+            val luckySongFile = File(cacheDir, "lucky.mp3").also { cacheFile ->
+                cacheFile.outputStream().use { cacheOutputStream ->
+                    resources.openRawResource(R.raw.lucky).use{
+                        it.copyTo(cacheOutputStream)
+                    }
+                }
+            }
+            val path = luckySongFile.absolutePath
 
+            if (mediaPlayer == null) {
+                mediaPlayer = MediaPlayer().apply {
+                    setDataSource(path)
+                    prepare()
+                    start()
+                }
+            } else {
+                mediaPlayer?.start()
+            }
+            isSongPlaying = true
+        } else {
+            mediaPlayer?.pause()
+            isSongPlaying = false
+        }
+    }
+
+    private fun readMusicFromRaw2() {
+        if (!isSongPlaying) {
+            val luckySongUri = Uri.Builder()
+                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+                .authority(packageName)
+                .path(R.raw.lucky.toString())
+                .build()
+
+            if (mediaPlayer == null) {
+                mediaPlayer = MediaPlayer().apply {
+                    setDataSource(this@MainActivity, luckySongUri)
+                    prepare()
+                    start()
+                }
+            } else {
+                mediaPlayer?.start()
+            }
+            isSongPlaying = true
+        } else {
+            mediaPlayer?.pause()
+            isSongPlaying = false
+        }
+    }
 
 }
