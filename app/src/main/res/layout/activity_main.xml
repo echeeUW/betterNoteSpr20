@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:padding="@dimen/padding_medium">
+
+    <Button
+        android:id="@+id/btnWriteFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Write file"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnRead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Read"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnWriteFile" />
+
+
+
+    <Button
+        android:id="@+id/btnShowAllFiles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show All Files"
+        app:layout_constraintStart_toEndOf="@+id/btnWriteFile"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnWriteExternal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Write Ext File"
+        app:layout_constraintStart_toEndOf="@+id/btnRead"
+        app:layout_constraintTop_toBottomOf="@+id/btnShowAllFiles" />
+
+    <Button
+        android:id="@+id/btnReadMusic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Read Music"
+        app:layout_constraintStart_toEndOf="@+id/btnShowAllFiles"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivAlbumArt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+<!--    <Button-->
+<!--        android:id="@+id/btnShowPreferences"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Show Prefs"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/btnWriteExternal"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/btnReadMusic" />-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvListOfNotes"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_note"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnRead" />
+
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add supp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
